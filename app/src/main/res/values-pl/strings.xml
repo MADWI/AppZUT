@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="schedule">Plan zajęć</string>
+    <string name="schedule_unavailable">Nie możemy pokazać tego planu w aplikacji</string>
+    <string name="import_from_edziekanat">Importuj z E-Dziekanatu</string>
+    <string name="please_wait">Proszę czekać</string>
+    <string name="no_classes">Brak zajęć</string>
+    <string name="calendar">Kalendarz</string>
+    <string name="week_schedule">Plan tygodnia</string>
+
+    <string-array name="week_days_short">
+        <item>PON</item>
+        <item>WT</item>
+        <item>ŚR</item>
+        <item>CZW</item>
+        <item>PT</item>
+    </string-array>
+</resources>
