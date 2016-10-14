@@ -11,9 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,21 +25,12 @@ import pl.edu.zut.mad.appzut.models.Schedule;
 import pl.edu.zut.mad.appzut.network.BaseDataLoader;
 import pl.edu.zut.mad.appzut.network.DataLoadingManager;
 import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
-import pl.edu.zut.mad.appzut.utils.DateUtils;
 
-/**
- * Schedule for a particular day
- *
- * Nested in {@link ScheduleFragment}
- *
- * Note: this is child fragment
- *       (so e.g. {@link #onActivityResult(int, int, Intent)} won't work)
- */
 public class ScheduleDayFragment extends Fragment implements BaseDataLoader.DataLoadedListener<Schedule> {
 
     private static final String DATE_KEY = "date";
+    private final ScheduleDayAdapter adapter = new ScheduleDayAdapter();
     private Date date;
-    private ScheduleDayAdapter adapter = new ScheduleDayAdapter();
     private Schedule schedule;
     private BaseDataLoader<Schedule, ?> loader;
     private Unbinder unbinder;
@@ -58,35 +47,10 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
         return fragment;
     }
 
-    public static ScheduleDayFragment newInstance(int dayOfWeek) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        DateUtils.stripTime(calendar);
-
-        int todayWeekDay = calendar.get(Calendar.DAY_OF_WEEK);
-
-        // Rewind calendar to last monday
-        int daysFromMonday = todayWeekDay - Calendar.MONDAY;
-        if (daysFromMonday < 0) {
-            daysFromMonday += 7;
-        }
-        calendar.add(Calendar.DATE, -daysFromMonday);
-
-        // If we're in weekend skip to next week
-        if (todayWeekDay == Calendar.SATURDAY || todayWeekDay == Calendar.SUNDAY) {
-            calendar.add(Calendar.DATE, 7);
-        }
-
-        // Now move forward to requested day
-        calendar.add(Calendar.DATE, dayOfWeek - Calendar.MONDAY);
-
-        return newInstance(calendar.getTime());
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle retainableArguments = savedInstanceState != null ? savedInstanceState : getArguments();
+        Bundle retainableArguments = getArguments();
         if (retainableArguments != null) {
             date = new Date(retainableArguments.getLong(DATE_KEY));
         }
@@ -96,10 +60,8 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.schedule_day_main, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         initListView();
         initLoader();
-
         return view;
     }
 
@@ -139,11 +101,6 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
             adapter.setHoursInDay(hoursInDay);
             noClassesMessage.setVisibility(View.GONE);
         }
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-        putDataInView();
     }
 
     @Override
