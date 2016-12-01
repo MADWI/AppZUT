@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import pl.edu.zut.mad.appzut.R;
-import pl.edu.zut.mad.appzut.activities.WebPlanActivity;
 import pl.edu.zut.mad.appzut.adapters.ScheduleDayAdapter;
 import pl.edu.zut.mad.appzut.models.Schedule;
 import pl.edu.zut.mad.appzut.network.BaseDataLoader;
@@ -120,6 +119,5 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
 
     @OnClick(R.id.import_from_edziekanat)
     public void onClick() {
-        startActivity(new Intent(getContext(), WebPlanActivity.class));
     }
 }

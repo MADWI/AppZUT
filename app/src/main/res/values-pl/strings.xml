@@ -5,6 +5,14 @@
     <string name="import_from_edziekanat">Importuj z E-Dziekanatu</string>
     <string name="please_wait">Proszę czekać</string>
     <string name="no_classes">Wolne :)</string>
+    <string name="calendar">Kalendarz</string>
+    <string name="week_schedule">Plan tygodnia</string>
+    <string name="password">Hasło</string>
+    <string name="identifier">Identyfikator</string>
+    <string name="login">Zaloguj się</string>
+    <string name="edziekanat">e-Dziekanat</string>
+    <string name="field_cannot_be_empty">Pole nie może być puste</string>
+    <string name="no_internet">Brak połączenia z internetem</string>
 
     <string-array name="week_days">
         <item>Poniedziałek</item>

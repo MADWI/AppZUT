@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008149</color>
-    <color name="colorPrimaryDark">#006633</color>
+    <color name="colorPrimaryDark">#026f40</color>
     <color name="colorAccent">#323B88</color>
     <color name="calendar_cell_default">@color/white</color>
     <color name="calendar_cell_selected">@color/colorPrimary</color>
