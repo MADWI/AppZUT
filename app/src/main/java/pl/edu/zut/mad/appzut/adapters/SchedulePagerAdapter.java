@@ -1,36 +1,33 @@
 package pl.edu.zut.mad.appzut.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
-import pl.edu.zut.mad.appzut.R;
+import com.tobishiba.circularviewpager.library.BaseCircularViewPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import pl.edu.zut.mad.appzut.fragments.ScheduleDayFragment;
-import pl.edu.zut.mad.appzut.utils.DateUtils;
 
-public class SchedulePagerAdapter extends FragmentPagerAdapter {
+public class SchedulePagerAdapter extends BaseCircularViewPagerAdapter<Date> {
 
-    private final String[] dayNames;
-
-    public SchedulePagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
-        dayNames = context.getResources().getStringArray(R.array.week_days_short);
+    public SchedulePagerAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager, new ArrayList<Date>());
     }
 
     @Override
-    public int getCount() {
-        return 5;
+    protected Fragment getFragmentForItem(Date date) {
+        return ScheduleDayFragment.newInstance(date);
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return dayNames[position];
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
-    @Override
-    public Fragment getItem(int position) {
-        int day = DateUtils.getDayByNumber(position);
-        return ScheduleDayFragment.newInstance(day);
+    public void setWeekDates(List<Date> weekDates ) {
+        setItems(weekDates);
     }
 }

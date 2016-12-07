@@ -3,8 +3,6 @@ package pl.edu.zut.mad.appzut.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import pl.edu.zut.mad.appzut.R;
 import pl.edu.zut.mad.appzut.fragments.CalendarFragment;
@@ -12,45 +10,76 @@ import pl.edu.zut.mad.appzut.fragments.ScheduleFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String CALENDAR_TAG = "calendar_fragment";
+    private static final String SCHEDULE_TAG = "schedule_fragment";
+    private CalendarFragment calendarFragment;
+    private ScheduleFragment scheduleFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (savedInstanceState == null) {
-            startFragment(ScheduleFragment.class);
-        }
+        initFragments(savedInstanceState);
     }
 
-    private void startFragment(Class<? extends Fragment> fragmentClass) {
-        Fragment fragment = createFragmentInstance(fragmentClass);
+    private void initFragments(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            calendarFragment = new CalendarFragment();
+            scheduleFragment = new ScheduleFragment();
+            startFragments();
+        } else {
+            initFragmentsFromStack();
+        }
+        registerCalendarForScheduleFragment();
+    }
+
+    private void startFragments() {
+        replaceFragmentInViewContainer(calendarFragment, R.id.calendar_container, CALENDAR_TAG);
+        replaceFragmentInViewContainer(scheduleFragment, R.id.schedule_container, SCHEDULE_TAG);
+    }
+
+    private void replaceFragmentInViewContainer(Fragment fragment, int containerViewId, String tag) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, fragment)
+                .replace(containerViewId, fragment, tag)
                 .commit();
     }
+    
+    private void initFragmentsFromStack() {
+        calendarFragment = (CalendarFragment) getFragmentFromStackWithTag(CALENDAR_TAG);
+        scheduleFragment = (ScheduleFragment) getFragmentFromStackWithTag(SCHEDULE_TAG);
+    }
 
-    private Fragment createFragmentInstance(Class<? extends Fragment> fragmentClass) {
-        try {
-            return fragmentClass.newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    private Fragment getFragmentFromStackWithTag(String tag) {
+        Fragment fragment = null;
+        switch (tag) {
+            case CALENDAR_TAG:
+                fragment = getFragmentWithTag(CALENDAR_TAG);
+                if (fragment instanceof CalendarFragment) {
+                    return fragment;
+                }
+            case SCHEDULE_TAG:
+                fragment = getFragmentWithTag(SCHEDULE_TAG);
+                if (fragment instanceof CalendarFragment) {
+                    return fragment;
+                }
+            default:
+                return fragment;
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
-        return true;
+    private Fragment getFragmentWithTag(String tag) {
+        return getSupportFragmentManager().findFragmentByTag(tag);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.calendar) {
-            startFragment(CalendarFragment.class);
-        } else if (itemId == R.id.week_schedule) {
-            startFragment(ScheduleFragment.class);
+    
+    private void registerCalendarForScheduleFragment() {
+        if (scheduleFragment != null) {
+            scheduleFragment.registerCalendar(calendarFragment);
         }
-        return false;
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        scheduleFragment.unregisterCalendar();
     }
 }

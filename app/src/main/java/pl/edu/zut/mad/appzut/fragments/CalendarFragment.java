@@ -1,56 +1,46 @@
 package pl.edu.zut.mad.appzut.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
+import com.roomorama.caldroid.DateGridFragment;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import pl.edu.zut.mad.appzut.R;
-import pl.edu.zut.mad.appzut.models.Schedule;
-import pl.edu.zut.mad.appzut.network.BaseDataLoader;
-import pl.edu.zut.mad.appzut.network.DataLoadingManager;
-import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
+import hirondelle.date4j.DateTime;
+import pl.edu.zut.mad.appzut.adapters.CalendarGridAdapter;
 import pl.edu.zut.mad.appzut.utils.DateUtils;
 
-public class CalendarFragment extends CaldroidFragment implements BaseDataLoader.DataLoadedListener<Schedule> {
+public class CalendarFragment extends CaldroidFragment {
 
-    private static final String SELECTED_DATE = "date";
-    private Schedule schedule;
-    private ScheduleEdzLoader scheduleLoader;
-    private Drawable selectedDateBackgroundColor;
-    private Drawable classesDayBackgroundColor;
-    private Date selectedDate = new Date();
-    private ScheduleDayFragment scheduleDayFragment = new ScheduleDayFragment();
-    @BindView(R.id.calendar_container) FrameLayout calendarContainer;
-    @BindView(R.id.schedule_container) FrameLayout scheduleContainer;
+    private CalendarListener calendarListener;
+
+    @Override
+    public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
+        return new CalendarGridAdapter(getActivity(), month, year,
+                getCaldroidData(), extraData);
+    }
 
     @Override
     protected void retrieveInitialArgs() {
-        startDayOfWeek = CaldroidFragment.MONDAY;
         super.retrieveInitialArgs();
+        startDayOfWeek = CaldroidFragment.MONDAY;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         setCaldroidListener(listener);
-        classesDayBackgroundColor = ContextCompat.getDrawable(context, R.color.colorAccent);
-        selectedDateBackgroundColor = ContextCompat.getDrawable(context, R.color.colorPrimaryDark);
     }
 
     @Override
@@ -58,95 +48,113 @@ public class CalendarFragment extends CaldroidFragment implements BaseDataLoader
         // michalbednarski: Hacky workaround for Caldroid's saved state mishandling
         if (savedInstanceState != null) {
             savedInstanceState.remove("android:support:fragments");
-            String selectedDateString = savedInstanceState.getString(SELECTED_DATE, "");
-            this.selectedDate = DateUtils.convertStringToDate(selectedDateString);
         }
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.calendar_fragment_main, container, false);
-        ButterKnife.bind(this, rootView);
-
-        View calendarView = super.onCreateView(inflater, container, savedInstanceState);
-        calendarContainer.addView(calendarView);
-
-        setBarTitle();
-        loadSchedule();
-        startScheduleFragment();
-
-        return rootView;
-    }
-
-    private void setBarTitle() {
-        Activity activity = getActivity();
-        if (activity instanceof AppCompatActivity) {
-            ActionBar bar = ((AppCompatActivity) activity).getSupportActionBar();
-            if (bar != null) {
-                bar.setTitle(R.string.schedule);
-            }
-        }
-    }
-
-    private void loadSchedule() {
-        scheduleLoader = DataLoadingManager.getInstance(getActivity()).getLoader(ScheduleEdzLoader.class);
-        scheduleLoader.registerAndLoad(this);
-    }
-
-    @Override
-    public void onDataLoaded(Schedule schedule) {
-        if (schedule == null) {
-            return;
-        }
-        this.schedule = schedule;
-        colorDaysWithClasses();
-        listener.onSelectDate(selectedDate, null);
-    }
-
-    private void colorDaysWithClasses() {
-        Schedule.Day[] days = schedule.getDays();
-        for (Schedule.Day day : days) {
-            setBackgroundDrawableForDate(classesDayBackgroundColor, day.getDate().getTime());
-        }
-    }
-
-    private void startScheduleFragment() {
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.schedule_container, scheduleDayFragment)
-                .commit();
     }
 
     private final CaldroidListener listener = new CaldroidListener() {
         @Override
         public void onSelectDate(Date date, View view) {
-            clearBackgroundDrawableForDate(selectedDate);
-            colorDaysWithClasses();
-            setBackgroundDrawableForDate(selectedDateBackgroundColor, date);
-            scheduleDayFragment.setDate(date);
-            refreshView();
-            selectedDate = date;
+            if (calendarListener != null) {
+                calendarListener.onSelectDate(date);
+            } else {
+                setSelectedDate(date);
+            }
         }
     };
 
+    /**
+     * This method will be also called from {@link ScheduleFragment} by
+     * {@link android.support.v4.view.ViewPager.OnPageChangeListener}
+     */
     @Override
-    public void clearBackgroundDrawableForDate(@Nullable Date date) {
-        if (date != null) {
-            super.clearBackgroundDrawableForDate(date);
+    public void setSelectedDate(Date date) {
+        DateUtils.stripTime(date);
+        clearSelectedDates();
+        super.setSelectedDate(date);
+        moveToProperMothPageIfNeeded(date);
+        refreshView();
+    }
+
+    /**
+     * When user swipe on calendar and will be moved to next or previous month
+     * then next swipe on schedule pager should also set proper calendar month page
+     */
+    private void moveToProperMothPageIfNeeded(Date date) {
+        DateTime dateTime = DateUtils.convertDateToDateTime(date);
+        if (!dateInMonthsList.contains(dateTime)) {
+            moveToDate(date);
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        String date = DateUtils.convertDateToString(selectedDate);
-        outState.putString(SELECTED_DATE, date);
+    public void setClassesDates(List<Date> classesDates) {
+        putClassesDatesToMap(classesDates);
+        updateAdapters();
+        refreshView();
     }
 
-    @Override
-    public void onDestroyView() {
-        scheduleLoader.unregister(this);
-        super.onDestroyView();
+    private void putClassesDatesToMap(List<Date> classesDates) {
+        Map<Date, Drawable> dateMap = convertClassesListToDateMap(classesDates);
+        setBackgroundDrawableForDates(dateMap);
+    }
+
+    /**
+     * Put null as drawable because we use
+     * {@link CalendarGridAdapter#getBackgroundResourceForDateTime(DateTime)} for getting
+     * proper background drawable (e.g. it could have a border for current day or be selected)
+     */
+    private Map<Date, Drawable> convertClassesListToDateMap(List<Date> classesDates) {
+        Map<Date, Drawable> dateMap = new HashMap<>();
+        for (Date date : classesDates) {
+            dateMap.put(date, null);
+        }
+        return dateMap;
+    }
+
+    private void updateAdapters() {
+        for (CaldroidGridAdapter adapter : datePagerAdapters) {
+            adapter.setCaldroidData(getCaldroidData());
+        }
+    }
+
+    public void setCalendarListener(CalendarListener calendarListener) {
+        this.calendarListener = calendarListener;
+    }
+
+    public boolean isLastDateInMonthPage(@NonNull Date date) {
+        int lastIndex = dateInMonthsList.size();
+        DateTime lastDateTime = dateInMonthsList.get(lastIndex - 1);
+        Date lastDate = DateUtils.convertDateTimeToDate(lastDateTime);
+        return date.compareTo(lastDate) == 0;
+    }
+
+    public boolean isFirstDateInMonthPage(Date date) {
+        DateTime lastDateTime = dateInMonthsList.get(0);
+        Date firstDate = DateUtils.convertDateTimeToDate(lastDateTime);
+        return date.compareTo(firstDate) == 0;
+    }
+
+    /**
+     * Useful method for preventing from click events on calendar date cells
+     * (e.g. when is collapsed and covered by toolbar)
+     *
+     * @param enabled set true for enabling click events, otherwise false
+     */
+    public void setEnabledForClickEvents(boolean enabled) {
+        List<DateGridFragment> calendarMonthFragments = getCalendarMonthFragments();
+        for (DateGridFragment fragment : calendarMonthFragments) {
+            View view = fragment.getGridView();
+            if (view != null) {
+                view.setEnabled(enabled);
+            }
+        }
+    }
+
+    private List<DateGridFragment> getCalendarMonthFragments() {
+        return getFragments();
+    }
+
+    interface CalendarListener {
+        void onSelectDate(Date date);
     }
 }

@@ -3,8 +3,11 @@
     <color name="colorPrimary">#008149</color>
     <color name="colorPrimaryDark">#006633</color>
     <color name="colorAccent">#323B88</color>
-
+    <color name="calendar_cell_default">@color/white</color>
+    <color name="calendar_cell_selected">@color/colorPrimary</color>
+    <color name="calendar_cell_classes_day">@color/colorAccent</color>
     <color name="white">#ffffff</color>
+    <color name="today_date_border">#ff4545</color>
     <color name="backgroundGray">#EEEEEE</color>
     <color name="textGray">#424242</color>
 </resources>

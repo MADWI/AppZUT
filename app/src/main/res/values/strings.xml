@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">AppZUT</string>
-    <string name="schedule">Schedule</string>
     <string name="schedule_unavailable">Cannot display the schedule in the app</string>
     <string name="import_from_edziekanat">Import from E-Dziekanat</string>
     <string name="please_wait">Please wait</string>
-    <string name="no_classes">No classes</string>
-    <string name="calendar">Calendar</string>
-    <string name="week_schedule">Week schedule</string>
+    <string name="no_classes">Free :)</string>
 
-    <string-array name="week_days_short">
-        <item>MON</item>
-        <item>TUE</item>
-        <item>WED</item>
-        <item>THU</item>
-        <item>FRI</item>
+    <string-array name="week_days">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
     </string-array>
 </resources>

@@ -1,21 +1,23 @@
 package pl.edu.zut.mad.appzut.models;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import pl.edu.zut.mad.appzut.utils.DateUtils;
 
 public class Schedule {
-    private final Day[] mDays;
+    private final Day[] days;
 
     public Schedule(Day[] days) {
-        mDays = days;
+        this.days = days;
     }
 
     public Day[] getDays() {
-        return mDays;
+        return days;
     }
 
     /**
@@ -98,20 +100,24 @@ public class Schedule {
     }
 
     public static class Day {
-        private final GregorianCalendar mDate;
-        private final Hour[] mTasks;
+        private final GregorianCalendar date;
+        private final Hour[] tasks;
 
         public Day(GregorianCalendar date, Hour[] tasks) {
-            mDate = date;
-            mTasks = tasks;
+            this.date = date;
+            this.tasks = tasks;
         }
 
-        public GregorianCalendar getDate() {
-            return mDate;
+        public GregorianCalendar getDateGregorian() {
+            return date;
+        }
+
+        Date getDate() {
+            return date.getTime();
         }
 
         public Hour[] getTasks() {
-            return mTasks;
+            return tasks;
         }
     }
 
@@ -123,8 +129,8 @@ public class Schedule {
         calendar.setTime(date);
         DateUtils.stripTime(calendar);
 
-        for (Day day : mDays) {
-            if (calendar.getTimeInMillis() == day.mDate.getTimeInMillis()) {
+        for (Day day : days) {
+            if (calendar.getTimeInMillis() == day.date.getTimeInMillis()) {
                 return day;
             }
         }
@@ -143,14 +149,14 @@ public class Schedule {
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
 
-        for (Day day : mDays) {
+        for (Day day : days) {
             // Day that passed
-            if (day.getDate().before(today)) {
+            if (day.getDateGregorian().before(today)) {
                 continue;
             }
 
             // Today
-            if (day.getDate().equals(today)) {
+            if (day.getDateGregorian().equals(today)) {
                 // Choose first with non-expired date
                 for (Hour hour : day.getTasks()) {
                     TimeRange time = hour.getTime();
@@ -175,5 +181,13 @@ public class Schedule {
         }
 
         return null;
+    }
+
+    public List<Date> getClassesDates() {
+        List<Date> classesDates = new ArrayList<>();
+        for (Day day : days) {
+            classesDates.add(day.getDate());
+        }
+        return classesDates;
     }
 }
