@@ -5,6 +5,15 @@
     <string name="import_from_edziekanat">Import from E-Dziekanat</string>
     <string name="please_wait">Please wait</string>
     <string name="no_classes">Free :)</string>
+    <string name="calendar">Calendar</string>
+    <string name="week_schedule">Week schedule</string>
+    <string name="password">Password</string>
+    <string name="identifier">ID</string>
+    <string name="login">Login</string>
+    <string name="edziekanat">e-Dziekanat</string>
+    <string name="field_cannot_be_empty">Field cannot be empty</string>
+    <string name="incorrect_error" translatable="false">Upłynał czas bezczynności serwisu lub wystąpił brak dostępu do zasobu, proszę zalogować się ponownie</string>
+    <string name="no_internet">No Internet connection</string>
 
     <string-array name="week_days">
         <item>Monday</item>
