@@ -1,6 +1,8 @@
 package pl.edu.zut.mad.appzut.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.edu.zut.mad.appzut.R;
 import pl.edu.zut.mad.appzut.network.HttpConnect;
+import pl.edu.zut.mad.appzut.utils.User;
 
 public class LoginFragment extends Fragment {
     @BindView(R.id.input_login)
@@ -35,6 +38,22 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.btn_login)
+    public void onLoginClick() {
+        if (!validate())
+            return;
+
+        if (!HttpConnect.isOnline(getContext())) {
+            Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String login = loginEt.getText().toString();
+        String password = passwordEt.getText().toString();
+        WebPlanFragment f = WebPlanFragment.newInstance(login, password);
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, f).commit();
+    }
+
     private boolean validate() {
         boolean valid = true;
         if (loginEt.getText().toString().isEmpty()) {
@@ -52,21 +71,14 @@ public class LoginFragment extends Fragment {
         return valid;
     }
 
-    @OnClick(R.id.btn_login)
-    public void onLoginClick() {
-        if (!validate())
-            return;
-
-        if(!HttpConnect.isOnline(getContext())) {
-            Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Fragment f = new WebPlanFragment();
-        Bundle b = new Bundle();
-        b.putString(WebPlanFragment.USERNAME_ARG, loginEt.getText().toString());
-        b.putString(WebPlanFragment.PASSWORD_ARG, passwordEt.getText().toString());
-        f.setArguments(b);
-        getFragmentManager().beginTransaction().replace(R.id.frame_container, f).commit();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Intent intent = getActivity().getIntent();
+        String login = intent.getStringExtra(User.LOGIN_KEY);
+        String password = intent.getStringExtra(User.PASSWORD_KEY);
+        loginEt.setText(login);
+        passwordEt.setText(password);
+        onLoginClick();
     }
 }
