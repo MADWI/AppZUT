@@ -1,5 +1,6 @@
 package pl.edu.zut.mad.appzut.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,10 @@ import java.net.URLDecoder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.edu.zut.mad.appzut.R;
+import pl.edu.zut.mad.appzut.activities.MainActivity;
 import pl.edu.zut.mad.appzut.network.DataLoadingManager;
 import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
+import pl.edu.zut.mad.appzut.utils.User;
 
 public class WebPlanFragment extends Fragment {
 
@@ -29,18 +32,24 @@ public class WebPlanFragment extends Fragment {
     @BindView(R.id.please_wait)
     View pleaseWaitView;
 
-    public static final String USERNAME_ARG = "username";
-    public static final String PASSWORD_ARG = "password";
-
-    private String username;
+    private String login;
     private String password;
+
+    public static WebPlanFragment newInstance(String login, String password) {
+        WebPlanFragment f = new WebPlanFragment();
+        Bundle b = new Bundle();
+        b.putString(User.LOGIN_KEY, login);
+        b.putString(User.PASSWORD_KEY, password);
+        f.setArguments(b);
+        return f;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_web_plan, container, false);
         ButterKnife.bind(this, view);
-        username = getArguments().getString(USERNAME_ARG);
-        password = getArguments().getString(PASSWORD_ARG);
+        login = getArguments().getString(User.LOGIN_KEY);
+        password = getArguments().getString(User.PASSWORD_KEY);
         return view;
     }
 
@@ -59,7 +68,7 @@ public class WebPlanFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 web.loadUrl("javascript:javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
-                web.loadUrl("javascript:var x =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtIdent').value = '"+username+"';");
+                web.loadUrl("javascript:var x =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtIdent').value = '"+login+"';");
                 web.loadUrl("javascript:var y =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtHaslo').value = '"+password+"';");
                 web.loadUrl("javascript:var z =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_butLoguj').click();");
                 web.loadUrl("javascript:android.onLoginError(document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_lblMessage').innerHTML)");
@@ -82,6 +91,7 @@ public class WebPlanFragment extends Fragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("js-grabbed-table:")) {
+                    saveUser(login, password);
                     String tableJson;
                     try {
                         tableJson = URLDecoder.decode(url.substring(17), "utf-8");
@@ -98,12 +108,18 @@ public class WebPlanFragment extends Fragment {
         web.loadUrl("https://edziekanat.zut.edu.pl/WU/PodzGodzin.aspx");
     }
 
+    private void saveUser(String login, String password) {
+        User user = new User(getContext());
+        user.save(login, password);
+    }
+
     public void tableGrabbedByJavascript(final String contents) {
         DataLoadingManager
                 .getInstance(getContext())
                 .getLoader(ScheduleEdzLoader.class)
                 .setSourceTableJson(contents);
         getActivity().finish();
+        startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     @JavascriptInterface

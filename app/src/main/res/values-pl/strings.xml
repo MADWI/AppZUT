@@ -13,6 +13,7 @@
     <string name="edziekanat">e-Dziekanat</string>
     <string name="field_cannot_be_empty">Pole nie może być puste</string>
     <string name="no_internet">Brak połączenia z internetem</string>
+    <string name="refresh_schedule">Odśwież plan</string>
 
     <string-array name="week_days">
         <item>Poniedziałek</item>

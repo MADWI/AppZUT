@@ -1,12 +1,19 @@
 package pl.edu.zut.mad.appzut.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import pl.edu.zut.mad.appzut.R;
 import pl.edu.zut.mad.appzut.fragments.CalendarFragment;
 import pl.edu.zut.mad.appzut.fragments.ScheduleFragment;
+import pl.edu.zut.mad.appzut.network.HttpConnect;
+import pl.edu.zut.mad.appzut.utils.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,21 +26,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initFragments(savedInstanceState);
+
+        User user = new User(this);
+        if (user.isSaved()) {
+            initScheduleFragments(savedInstanceState);
+        } else {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
 
-    private void initFragments(Bundle savedInstanceState) {
+    private void initScheduleFragments(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             calendarFragment = new CalendarFragment();
             scheduleFragment = new ScheduleFragment();
-            startFragments();
+            startScheduleFragments();
         } else {
-            initFragmentsFromStack();
+            initScheduleFragmentsFromStack();
         }
         registerCalendarForScheduleFragment();
     }
 
-    private void startFragments() {
+    private void startScheduleFragments() {
         replaceFragmentInViewContainer(calendarFragment, R.id.calendar_container, CALENDAR_TAG);
         replaceFragmentInViewContainer(scheduleFragment, R.id.schedule_container, SCHEDULE_TAG);
     }
@@ -44,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
     
-    private void initFragmentsFromStack() {
+    private void initScheduleFragmentsFromStack() {
         calendarFragment = (CalendarFragment) getFragmentFromStackWithTag(CALENDAR_TAG);
         scheduleFragment = (ScheduleFragment) getFragmentFromStackWithTag(SCHEDULE_TAG);
     }
@@ -76,10 +90,46 @@ public class MainActivity extends AppCompatActivity {
             scheduleFragment.registerCalendar(calendarFragment);
         }
     }
-    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.refresh_schedule) {
+            refreshScheduleIfNetworkAvailable();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshScheduleIfNetworkAvailable() {
+        if (HttpConnect.isOnline(this)) {
+            refreshSchedule();
+        } else {
+            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void refreshSchedule() {
+        User user = new User(this);
+        String login = user.getSavedLogin();
+        String password = user.getSavedPassword();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra(User.LOGIN_KEY, login);
+        intent.putExtra(User.PASSWORD_KEY, password);
+        startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        scheduleFragment.unregisterCalendar();
+        if (scheduleFragment != null) {
+            scheduleFragment.unregisterCalendar();
+        }
     }
 }
