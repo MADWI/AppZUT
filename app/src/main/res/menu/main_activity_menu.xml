@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/refresh_schedule"
+        android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh_white_24dp"
-        android:title="@string/refresh_schedule" />
+        android:title="@string/action_refresh"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_import"
+        android:title="@string/action_import"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_authors"
+        android:title="@string/action_authors"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_logout"
+        android:title="@string/action_logout"
+        app:showAsAction="never"/>
 </menu>

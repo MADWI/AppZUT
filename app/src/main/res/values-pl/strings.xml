@@ -4,7 +4,7 @@
     <string name="schedule_unavailable">Nie możemy pokazać tego planu w aplikacji</string>
     <string name="import_from_edziekanat">Importuj z E-Dziekanatu</string>
     <string name="please_wait">Proszę czekać</string>
-    <string name="no_classes">Wolne :)</string>
+    <string name="no_classes">Brak zajęć</string>
     <string name="calendar">Kalendarz</string>
     <string name="week_schedule">Plan tygodnia</string>
     <string name="password">Hasło</string>
@@ -13,7 +13,10 @@
     <string name="edziekanat">e-Dziekanat</string>
     <string name="field_cannot_be_empty">Pole nie może być puste</string>
     <string name="no_internet">Brak połączenia z internetem</string>
-    <string name="refresh_schedule">Odśwież plan</string>
+    <string name="action_import">Importuj plan</string>
+    <string name="action_authors">Autorzy</string>
+    <string name="action_refresh">Odśwież</string>
+    <string name="action_logout">Wyloguj</string>
 
     <string-array name="week_days">
         <item>Poniedziałek</item>

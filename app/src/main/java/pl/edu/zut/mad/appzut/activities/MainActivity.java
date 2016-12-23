@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);  getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_logo_zut);
+        getSupportActionBar().setTitle("ZUT");
 
         User user = new User(this);
         if (user.isSaved()) {
@@ -100,11 +102,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.refresh_schedule) {
-            refreshScheduleIfNetworkAvailable();
+        switch (item.getItemId()) {
+            case R.id.action_import:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.action_authors:
+                return true;
+            case R.id.action_refresh:
+                refreshScheduleIfNetworkAvailable();
+                return true;
+            case R.id.action_logout:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void refreshScheduleIfNetworkAvailable() {

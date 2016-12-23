@@ -1,58 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginBottom="10dp"
-    android:background="@color/backgroundGray"
-    app:cardCornerRadius="5dp">
+    android:layout_gravity="center">
 
     <LinearLayout
+        android:id="@+id/item_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/time"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/schedule_card_left_margin"
-            android:layout_marginStart="@dimen/schedule_card_left_margin"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical|center_horizontal"
             android:paddingLeft="@dimen/schedule_card_highlighted_padding"
             android:paddingRight="@dimen/schedule_card_highlighted_padding"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="18sp"
             android:textColor="@color/white"
             tools:text="12:15" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_type"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/textGray"
-                tools:text="Systemy multimedialne\n(wykład)" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/room_lecturer"
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_school_white_24dp"
+                    android:tint="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/name_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/textGray"
+                    tools:text="Systemy multimedialne (wykład)" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/textGray"
-                tools:text="dr. inż. Paweł Forczmański WI WI1-013" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_person_white_24dp"
+                    android:tint="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/room_lecturer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/textGray"
+                    tools:text="dr. inż. Paweł Forczmański WI WI1-013" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-
-</android.support.v7.widget.CardView>
+</LinearLayout>
 

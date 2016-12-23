@@ -1,6 +1,5 @@
 package pl.edu.zut.mad.appzut.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -28,13 +27,13 @@ import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
 public class ScheduleDayFragment extends Fragment implements BaseDataLoader.DataLoadedListener<Schedule> {
 
     private static final String DATE_KEY = "date";
-    private final ScheduleDayAdapter adapter = new ScheduleDayAdapter();
+    private ScheduleDayAdapter adapter;
     private Date date;
     private Schedule schedule;
     private BaseDataLoader<Schedule, ?> loader;
     private Unbinder unbinder;
     @BindView(R.id.classes_list) RecyclerView classesListView;
-    @BindView(R.id.empty_view) TextView noClassesMessage;
+    @BindView(R.id.empty_view) View noClassesMessage;
     @BindView(R.id.import_from_edziekanat) Button importFromEdziekanatButton;
 
     public static ScheduleDayFragment newInstance(Date date) {
@@ -59,6 +58,7 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.schedule_day_main, container, false);
         unbinder = ButterKnife.bind(this, view);
+        adapter = new ScheduleDayAdapter(getContext());
         initListView();
         initLoader();
         return view;
