@@ -17,6 +17,7 @@
     <string name="action_authors">Autorzy</string>
     <string name="action_refresh">Odśwież</string>
     <string name="action_logout">Wyloguj</string>
+    <string name="mentor">Opiekun koła naukowego:</string>
 
     <string-array name="week_days">
         <item>Poniedziałek</item>

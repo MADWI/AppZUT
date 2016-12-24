@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import pl.edu.zut.mad.appzut.R;
+import pl.edu.zut.mad.appzut.fragments.AboutUsFragment;
 import pl.edu.zut.mad.appzut.fragments.CalendarFragment;
 import pl.edu.zut.mad.appzut.fragments.ScheduleFragment;
 import pl.edu.zut.mad.appzut.network.DataLoadingManager;
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
             case R.id.action_authors:
+                aboutUs();
                 return true;
             case R.id.action_refresh:
                 refreshScheduleIfNetworkAvailable();
@@ -134,6 +136,13 @@ public class MainActivity extends AppCompatActivity {
 
         finish();
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void aboutUs() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.view_container, new AboutUsFragment(), "AboutUs")
+                .addToBackStack(null)
+                .commit();
     }
 
     private void refreshScheduleIfNetworkAvailable() {

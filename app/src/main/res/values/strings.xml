@@ -18,7 +18,11 @@
     <string name="action_authors">Authors</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_logout">Logout</string>
-
+    <string name="mobile_applications_developers">Mobile Applications Developers</string>
+    <string name="authors_list">Michał Bednarski\nBartosz Kozajda\nMarek Macko\nDamian Malarczyk</string>
+    <string name="mentor">SSA patron:</string>
+    <string name="legal_notices">Application use open source software:\n- Caldroid Copyright (c) 2013 by Roomorama Inc. \n- ButterKnife Copyright 2013 Jake Wharton\n- CircularViewPager Copyright 2014 Tobias Buchholz\n\nLicense:\nCopyright 2015 Mobile Applications Developers WI ZUT\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="legal_notice">Legal notice</string>
     <string-array name="week_days">
         <item>Monday</item>
         <item>Tuesday</item>
