@@ -1,6 +1,8 @@
 package pl.edu.zut.mad.appzut.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +14,9 @@ import android.widget.Toast;
 import pl.edu.zut.mad.appzut.R;
 import pl.edu.zut.mad.appzut.fragments.CalendarFragment;
 import pl.edu.zut.mad.appzut.fragments.ScheduleFragment;
+import pl.edu.zut.mad.appzut.network.DataLoadingManager;
 import pl.edu.zut.mad.appzut.network.HttpConnect;
+import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
 import pl.edu.zut.mad.appzut.utils.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -112,10 +116,24 @@ public class MainActivity extends AppCompatActivity {
                 refreshScheduleIfNetworkAvailable();
                 return true;
             case R.id.action_logout:
+                logout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void logout() {
+        ScheduleEdzLoader loader = DataLoadingManager
+                .getInstance(this)
+                .getLoader(ScheduleEdzLoader.class);
+        loader.setSourceTableJson("");
+
+        SharedPreferences settings = getSharedPreferences(User.PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+        settings.edit().clear().apply();
+
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     private void refreshScheduleIfNetworkAvailable() {
