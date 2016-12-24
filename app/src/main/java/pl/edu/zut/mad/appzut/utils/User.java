@@ -7,7 +7,7 @@ public class User {
 
     public static final String LOGIN_KEY = "login";
     public static final String PASSWORD_KEY = "password";
-    private static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
+    public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
     private SharedPreferences preferences;
 
     public User(Context context) {

@@ -1,6 +1,8 @@
 package pl.edu.zut.mad.appzut.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +12,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import pl.edu.zut.mad.appzut.R;
+import pl.edu.zut.mad.appzut.fragments.AboutUsFragment;
 import pl.edu.zut.mad.appzut.fragments.CalendarFragment;
 import pl.edu.zut.mad.appzut.fragments.ScheduleFragment;
+import pl.edu.zut.mad.appzut.network.DataLoadingManager;
 import pl.edu.zut.mad.appzut.network.HttpConnect;
+import pl.edu.zut.mad.appzut.network.ScheduleEdzLoader;
 import pl.edu.zut.mad.appzut.utils.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);  getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_logo_zut);
+        getSupportActionBar().setTitle("ZUT");
 
         User user = new User(this);
         if (user.isSaved()) {
@@ -100,11 +107,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.refresh_schedule) {
-            refreshScheduleIfNetworkAvailable();
+        switch (item.getItemId()) {
+            case R.id.action_import:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.action_authors:
+                aboutUs();
+                return true;
+            case R.id.action_refresh:
+                refreshScheduleIfNetworkAvailable();
+                return true;
+            case R.id.action_logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        ScheduleEdzLoader loader = DataLoadingManager
+                .getInstance(this)
+                .getLoader(ScheduleEdzLoader.class);
+        loader.setSourceTableJson("");
+
+        SharedPreferences settings = getSharedPreferences(User.PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+        settings.edit().clear().apply();
+
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void aboutUs() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.view_container, new AboutUsFragment(), "AboutUs")
+                .addToBackStack(null)
+                .commit();
     }
 
     private void refreshScheduleIfNetworkAvailable() {

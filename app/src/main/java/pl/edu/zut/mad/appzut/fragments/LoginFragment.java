@@ -77,8 +77,10 @@ public class LoginFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         String login = intent.getStringExtra(User.LOGIN_KEY);
         String password = intent.getStringExtra(User.PASSWORD_KEY);
-        loginEt.setText(login);
-        passwordEt.setText(password);
-        onLoginClick();
+        if(login != null && password != null) {
+            loginEt.setText(login);
+            passwordEt.setText(password);
+            onLoginClick();
+        }
     }
 }
