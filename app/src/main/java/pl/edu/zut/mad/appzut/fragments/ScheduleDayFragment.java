@@ -112,12 +112,8 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
 
     @Override
     public void onDestroyView() {
-        loader.unregister(this);
         super.onDestroyView();
+        loader.unregister(this);
         unbinder.unbind();
-    }
-
-    @OnClick(R.id.import_from_edziekanat)
-    public void onClick() {
     }
 }

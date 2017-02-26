@@ -275,11 +275,6 @@ public class ScheduleFragment extends Fragment
         unbinder.unbind();
     }
 
-    @OnClick(R.id.import_from_edziekanat)
-    public void onClick() {
-        startActivity(new Intent(getContext(), LoginActivity.class));
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

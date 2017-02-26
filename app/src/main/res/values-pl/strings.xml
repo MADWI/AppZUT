@@ -18,7 +18,8 @@
     <string name="action_refresh">Odśwież</string>
     <string name="action_logout">Wyloguj</string>
     <string name="mentor">Opiekun koła naukowego:</string>
-
+    <string name="server_data_error">Błąd danych serwera</string>
+    <string name="choose_field_of_study">Wybierz kierunek studiów</string>
     <string-array name="week_days">
         <item>Poniedziałek</item>
         <item>Wtorek</item>
