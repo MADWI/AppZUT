@@ -8,10 +8,18 @@ public class User {
     public static final String LOGIN_KEY = "login";
     public static final String PASSWORD_KEY = "password";
     public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
-    private final SharedPreferences preferences;
+    private static User instance;
+    private static SharedPreferences preferences;
 
-    public User(Context context) {
+    private User() {
+    }
+
+    public static User getInstance(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
     }
 
     public void save(String login, String password) {

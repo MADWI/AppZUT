@@ -113,7 +113,7 @@ public class WebPlanFragment extends Fragment {
     }
 
     private void saveUser(String login, String password) {
-        User user = new User(getContext());
+        User user = User.getInstance(getContext());
         user.save(login, password);
     }
 
@@ -171,10 +171,13 @@ public class WebPlanFragment extends Fragment {
 
     @JavascriptInterface
     public void serverDataError() {
-        if (getView() != null) {
-            Toast.makeText(getContext(), R.string.server_data_error, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), R.string.server_data_error, Toast.LENGTH_LONG).show();
+        User user = User.getInstance(getContext());
+        if (user.isSaved()) {
+            getActivity().finish();
+        } else {
+            goToLoginFragment();
         }
-        goToLoginFragment();
     }
 
     @Override

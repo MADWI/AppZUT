@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initBar();
 
-        User user = new User(this);
+        User user = User.getInstance(this);
         if (user.isSaved()) {
             initScheduleFragments(savedInstanceState);
         } else {
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshSchedule() {
-        User user = new User(this);
+        User user = User.getInstance(this);
         String login = user.getSavedLogin();
         String password = user.getSavedPassword();
         Intent intent = new Intent(this, LoginActivity.class);
