@@ -1,6 +1,5 @@
 package pl.edu.zut.mad.appzut.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,10 +21,8 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import pl.edu.zut.mad.appzut.R;
-import pl.edu.zut.mad.appzut.activities.LoginActivity;
 import pl.edu.zut.mad.appzut.adapters.SchedulePagerAdapter;
 import pl.edu.zut.mad.appzut.models.Schedule;
 import pl.edu.zut.mad.appzut.network.BaseDataLoader;

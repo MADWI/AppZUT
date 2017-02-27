@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,9 +31,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_logo_zut);
-        getSupportActionBar().setTitle("ZUT");
+        setContentView(R.layout.activity_main);
+        initBar();
 
         User user = new User(this);
         if (user.isSaved()) {
@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
+        }
+    }
+
+    private void initBar() {
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.drawable.ic_logo_zut);
+            getSupportActionBar().setTitle("ZUT");
         }
     }
 
@@ -64,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(containerViewId, fragment, tag)
                 .commit();
     }
-    
+
     private void initScheduleFragmentsFromStack() {
         calendarFragment = (CalendarFragment) getFragmentFromStackWithTag(CALENDAR_TAG);
         scheduleFragment = (ScheduleFragment) getFragmentFromStackWithTag(SCHEDULE_TAG);
@@ -91,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getFragmentWithTag(String tag) {
         return getSupportFragmentManager().findFragmentByTag(tag);
     }
-    
+
     private void registerCalendarForScheduleFragment() {
         if (scheduleFragment != null) {
             scheduleFragment.registerCalendar(calendarFragment);

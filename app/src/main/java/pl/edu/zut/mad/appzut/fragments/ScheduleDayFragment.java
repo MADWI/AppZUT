@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -15,7 +13,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import pl.edu.zut.mad.appzut.R;
 import pl.edu.zut.mad.appzut.adapters.ScheduleDayAdapter;
@@ -34,7 +31,6 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
     private Unbinder unbinder;
     @BindView(R.id.classes_list) RecyclerView classesListView;
     @BindView(R.id.empty_view) View noClassesMessage;
-    @BindView(R.id.import_from_edziekanat) Button importFromEdziekanatButton;
 
     public static ScheduleDayFragment newInstance(Date date) {
         Bundle args = new Bundle();
@@ -78,10 +74,7 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
     @Override
     public void onDataLoaded(Schedule schedule) {
         this.schedule = schedule;
-        if (schedule == null) {
-            importFromEdziekanatButton.setVisibility(View.VISIBLE);
-        } else {
-            importFromEdziekanatButton.setVisibility(View.GONE);
+        if (schedule != null) {
             putDataInView();
         }
     }

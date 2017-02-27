@@ -7,7 +7,7 @@
         window.location = location.protocol + '//' + location.host + '/WU/PodzGodzin.aspx';
     } else if (isOnSchedulePage()) {
         selectSemesterAndPrintTable();
-    } else if (isOnSchedulePage()) {
+    } else if (isOnScheduleTablePage()) {
         passScheduleTableToAndroid();
     } else {
         hideError();

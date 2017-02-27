@@ -28,8 +28,9 @@ public class AboutUsFragment extends Fragment {
         try {
             PackageInfo pInfo = getActivity().getPackageManager()
                     .getPackageInfo(getActivity().getPackageName(), 0);
-            appVersion.setText("v. " + pInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
+            String version = "v. " + pInfo.versionName;
+            appVersion.setText(version);
+        } catch (PackageManager.NameNotFoundException ignored) {
         }
         return view;
     }

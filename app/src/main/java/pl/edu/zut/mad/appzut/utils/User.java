@@ -8,7 +8,7 @@ public class User {
     public static final String LOGIN_KEY = "login";
     public static final String PASSWORD_KEY = "password";
     public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
     public User(Context context) {
         preferences = context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);

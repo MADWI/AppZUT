@@ -16,8 +16,8 @@ import pl.edu.zut.mad.appzut.models.Schedule;
 
 public class ScheduleDayAdapter extends RecyclerView.Adapter<ScheduleDayAdapter.ClassViewHolder> {
 
+    private final Context context;
     private List<Schedule.Hour> hoursInDay;
-    private Context context;
 
     public ScheduleDayAdapter(Context context) {
         this.context = context;

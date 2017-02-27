@@ -117,7 +117,7 @@ public class WebPlanFragment extends Fragment {
         user.save(login, password);
     }
 
-    public void tableGrabbedByJavascript(final String contents) {
+    private void tableGrabbedByJavascript(final String contents) {
         DataLoadingManager
                 .getInstance(getContext())
                 .getLoader(ScheduleEdzLoader.class)
