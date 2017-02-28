@@ -41,7 +41,6 @@ public class ScheduleFragment extends Fragment
     private static final int LAST_DAY_INDEX = 6;
     @BindView(R.id.schedule_main) View scheduleWrapper;
     @BindView(R.id.pager) ViewPager viewPager;
-    @BindView(R.id.schedule_unavailable) View scheduleUnavailableWrapper;
     @BindView(R.id.loading_indicator) ProgressBar loadingIndicator;
     @BindArray(R.array.week_days) String[] weekDaysNames;
     private Unbinder unbinder;
@@ -137,8 +136,6 @@ public class ScheduleFragment extends Fragment
             calendarFragment.setClassesDates(schedule.getClassesDates());
             selectCurrentDayPage();
             showSchedule();
-        } else {
-            showScheduleUnavailable();
         }
     }
 
@@ -149,13 +146,6 @@ public class ScheduleFragment extends Fragment
 
     private void showSchedule() {
         scheduleWrapper.setVisibility(View.VISIBLE);
-        scheduleUnavailableWrapper.setVisibility(View.GONE);
-        loadingIndicator.setVisibility(View.GONE);
-    }
-
-    private void showScheduleUnavailable() {
-        scheduleWrapper.setVisibility(View.GONE);
-        scheduleUnavailableWrapper.setVisibility(View.VISIBLE);
         loadingIndicator.setVisibility(View.GONE);
     }
 

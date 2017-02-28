@@ -3,6 +3,8 @@ package pl.edu.zut.mad.appzut.fragments;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,9 +17,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,14 +71,11 @@ public class WebPlanFragment extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 web.loadUrl("javascript:javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
-                web.loadUrl("javascript:var x =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtIdent').value = '" + login + "';");
-                web.loadUrl("javascript:var y =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtHaslo').value = '" + password + "';");
-                web.loadUrl("javascript:var z =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_butLoguj').click();");
-                web.loadUrl("javascript:android.onLoginError(document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_lblMessage').innerHTML)");
             }
 
             @Override
-            @SuppressWarnings("deprecation") // Newer version is not supported on older Android versions
+            @SuppressWarnings("deprecation")
+            // Newer version is not supported on older Android versions
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
                 if (url.endsWith("/appwizut-injected-script.js")) {
                     return new WebResourceResponse(
@@ -90,40 +86,35 @@ public class WebPlanFragment extends Fragment {
                 }
                 return null;
             }
-
-            // Handle response from javascript
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("js-grabbed-table:")) {
-                    saveUser(login, password);
-                    String tableJson;
-                    try {
-                        tableJson = URLDecoder.decode(url.substring(17), "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    tableGrabbedByJavascript(tableJson);
-                    return true;
-                }
-                return false;
-            }
         });
 
-        web.loadUrl("https://edziekanat.zut.edu.pl/");
+        web.loadUrl("https://edziekanat.zut.edu.pl/WU");
     }
 
-    private void saveUser(String login, String password) {
-        User user = User.getInstance(getContext());
-        user.save(login, password);
+    @JavascriptInterface
+    public String getLogin() {
+        return login;
     }
 
-    private void tableGrabbedByJavascript(final String contents) {
+    @JavascriptInterface
+    public String getPassword() {
+        return password;
+    }
+
+    @JavascriptInterface
+    public void onTableGrabbed(final String contents) {
+        saveUser(login, password);
         DataLoadingManager
                 .getInstance(getContext())
                 .getLoader(ScheduleEdzLoader.class)
                 .setSourceTableJson(contents);
         getActivity().finish();
         startActivity(new Intent(getContext(), MainActivity.class));
+    }
+
+    private void saveUser(String login, String password) {
+        User user = User.getInstance(getContext());
+        user.save(login, password);
     }
 
     @JavascriptInterface
@@ -170,7 +161,7 @@ public class WebPlanFragment extends Fragment {
     }
 
     @JavascriptInterface
-    public void serverDataError() {
+    public void onServerDataError() {
         Toast.makeText(getContext(), R.string.server_data_error, Toast.LENGTH_LONG).show();
         User user = User.getInstance(getContext());
         if (user.isSaved()) {
