@@ -101,13 +101,18 @@ public class WebPlanFragment extends Fragment {
 
     @JavascriptInterface
     public void onTableGrabbed(final String contents) {
-        saveUser(login, password);
-        DataLoadingManager
-                .getInstance(getContext())
-                .getLoader(ScheduleEdzLoader.class)
-                .setSourceTableJson(contents);
-        getActivity().finish();
-        startActivity(new Intent(getContext(), MainActivity.class));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                saveUser(login, password);
+                DataLoadingManager
+                        .getInstance(getContext())
+                        .getLoader(ScheduleEdzLoader.class)
+                        .setSourceTableJson(contents);
+                getActivity().finish();
+                startActivity(new Intent(getContext(), MainActivity.class));
+            }
+        });
     }
 
     private void saveUser(String login, String password) {
@@ -137,16 +142,22 @@ public class WebPlanFragment extends Fragment {
 
     @JavascriptInterface
     public void chooseFieldOfStudy(final String[] fields, final String[] ids) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.choose_field_of_study)
-                .setItems(fields, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, final int index) {
-                        dialogInterface.dismiss();
-                        passSelectedFiledOfStudyToScript(ids, index);
-                    }
-                });
-        builder.show();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.choose_field_of_study)
+                        .setCancelable(false)
+                        .setItems(fields, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, final int index) {
+                                dialogInterface.dismiss();
+                                passSelectedFiledOfStudyToScript(ids, index);
+                            }
+                        });
+                builder.show();
+            }
+        });
     }
 
     private void passSelectedFiledOfStudyToScript(final String[] ids, final int index) {

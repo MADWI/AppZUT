@@ -68,13 +68,6 @@
         android.chooseFieldOfStudy(fieldsNames, fieldsIds);
     }
 
-    function chooseFieldOfStudyById(id) {
-        var fieldOfStudy = document.getElementById(id);
-        fieldOfStudy.click();
-        var selectButton = document.querySelector('input[id$="_Button1"]');
-        selectButton.click();
-    }
-
     function selectSemesterAndPrintTable() {
         var semesterCheckbox = document.querySelector('input[id$="_rbJak_2"]');
         if (!semesterCheckbox.checked) {
@@ -121,3 +114,9 @@
 
 })();
 
+function chooseFieldOfStudyById(id) {
+    var fieldOfStudy = document.getElementById(id);
+    fieldOfStudy.click();
+    var selectButton = document.querySelector('input[id$="_Button1"]');
+    selectButton.click();
+}
