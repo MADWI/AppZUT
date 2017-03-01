@@ -1,6 +1,7 @@
 package pl.edu.zut.mad.appzut.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +33,11 @@ public class ScheduleDayAdapter extends RecyclerView.Adapter<ScheduleDayAdapter.
 
     @Override
     public void onBindViewHolder(ClassViewHolder holder, int position) {
-        if(position % 2 != 0) {
-            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.backgroundGray));
-            holder.timeTextView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        if (position % 2 != 0) {
+            int itemViewColor = ContextCompat.getColor(context, R.color.backgroundGray);
+            int timeTextViewColor = ContextCompat.getColor(context, R.color.colorPrimaryDark);
+            holder.itemView.setBackgroundColor(itemViewColor);
+            holder.timeTextView.setBackgroundColor(timeTextViewColor);
         }
         Schedule.Hour hour = hoursInDay.get(position);
         holder.timeTextView.setText(hour.getStartTime());

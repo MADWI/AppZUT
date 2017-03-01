@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="schedule_unavailable">Nie możemy pokazać tego planu w aplikacji</string>
-    <string name="import_from_edziekanat">Importuj z E-Dziekanatu</string>
     <string name="please_wait">Proszę czekać</string>
     <string name="no_classes">Brak zajęć</string>
     <string name="password">Hasło</string>

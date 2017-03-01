@@ -100,7 +100,7 @@ public class CalendarFragment extends CaldroidFragment {
 
     /**
      * Put null as drawable because we use
-     * {@link CalendarGridAdapter#getBackgroundResourceForDateTime(DateTime)} for getting
+     * {@link CalendarGridAdapter#getBackgroundForDateTime(DateTime)} for getting
      * proper background drawable (e.g. it could have a border for current day or be selected)
      */
     private Map<Date, Drawable> convertClassesListToDateMap(List<Date> classesDates) {

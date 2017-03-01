@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">AppZUT</string>
-    <string name="schedule_unavailable">Cannot display the schedule in the app</string>
-    <string name="import_from_edziekanat">Import from E-Dziekanat</string>
     <string name="please_wait">Please wait</string>
     <string name="no_classes">No classes</string>
     <string name="password">Password</string>

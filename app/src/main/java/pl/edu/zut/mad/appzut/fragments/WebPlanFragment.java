@@ -3,8 +3,6 @@ package pl.edu.zut.mad.appzut.fragments;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -61,7 +59,7 @@ public class WebPlanFragment extends Fragment {
         initWebView();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
         pleaseWaitView.setVisibility(View.VISIBLE);
         web.getSettings().setJavaScriptEnabled(true);
@@ -70,7 +68,7 @@ public class WebPlanFragment extends Fragment {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                web.loadUrl("javascript:javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
+                web.loadUrl("javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
             }
 
             @Override
@@ -145,13 +143,13 @@ public class WebPlanFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, final int index) {
                         dialogInterface.dismiss();
-                        passSelectToScript(ids, index);
+                        passSelectedFiledOfStudyToScript(ids, index);
                     }
                 });
         builder.show();
     }
 
-    private void passSelectToScript(final String[] ids, final int index) {
+    private void passSelectedFiledOfStudyToScript(final String[] ids, final int index) {
         web.post(new Runnable() {
             @Override
             public void run() {

@@ -9,15 +9,17 @@ public class User {
     public static final String PASSWORD_KEY = "password";
     public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
     private static User instance;
-    private static SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
-    private User() {
+    private User(SharedPreferences preferences) {
+        this.preferences = preferences;
     }
 
     public static User getInstance(Context context) {
-        preferences = context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
         if (instance == null) {
-            instance = new User();
+            SharedPreferences preferences =
+                    context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+            instance = new User(preferences);
         }
         return instance;
     }
