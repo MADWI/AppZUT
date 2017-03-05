@@ -44,9 +44,9 @@ public class ScheduleDayFragment extends Fragment implements BaseDataLoader.Data
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle retainableArguments = getArguments();
-        if (retainableArguments != null) {
-            date = new Date(retainableArguments.getLong(DATE_KEY));
+        Bundle retainedArguments = getArguments();
+        if (retainedArguments != null) {
+            date = new Date(retainedArguments.getLong(DATE_KEY));
         }
     }
 

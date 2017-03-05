@@ -110,7 +110,9 @@ public class WebPlanFragment extends Fragment {
                         .getLoader(ScheduleEdzLoader.class)
                         .setSourceTableJson(contents);
                 getActivity().finish();
-                startActivity(new Intent(getContext(), MainActivity.class));
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
     }
