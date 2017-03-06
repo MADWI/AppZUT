@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragmentInViewContainer(Fragment fragment, int containerId, String tag) {
         getSupportFragmentManager().beginTransaction()
                 .replace(containerId, fragment, tag)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -148,7 +147,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAboutUs() {
-        replaceFragmentInViewContainer(new AboutUsFragment(), R.id.main_view_container, ABOUT_US_TAG);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_view_container, new AboutUsFragment(), ABOUT_US_TAG)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void refreshScheduleIfNetworkAvailable() {
