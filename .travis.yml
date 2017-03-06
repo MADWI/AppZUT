@@ -9,6 +9,7 @@ android:
   components:
     - tools
     - platform-tools
+    - tools
     - build-tools-$BUILD_TOOLS_VER
     - android-$ANDROID_API_LEVEL
     - extra-android-m2repository
