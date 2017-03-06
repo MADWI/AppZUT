@@ -79,24 +79,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Fragment getFragmentFromStackWithTag(String tag) {
-        Fragment fragment = null;
-        switch (tag) {
-            case CALENDAR_TAG:
-                fragment = getFragmentWithTag(CALENDAR_TAG);
-                if (fragment instanceof CalendarFragment) {
-                    return fragment;
-                }
-            case SCHEDULE_TAG:
-                fragment = getFragmentWithTag(SCHEDULE_TAG);
-                if (fragment instanceof CalendarFragment) {
-                    return fragment;
-                }
-            default:
-                return fragment;
-        }
-    }
-
-    private Fragment getFragmentWithTag(String tag) {
         return getSupportFragmentManager().findFragmentByTag(tag);
     }
 
