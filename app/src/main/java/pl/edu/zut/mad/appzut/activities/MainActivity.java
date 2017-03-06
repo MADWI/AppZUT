@@ -1,8 +1,6 @@
 package pl.edu.zut.mad.appzut.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -25,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String CALENDAR_TAG = "calendar_fragment";
     private static final String SCHEDULE_TAG = "schedule_fragment";
+    private static final String ABOUT_US_TAG = "about_us_fragment";
     private CalendarFragment calendarFragment;
     private ScheduleFragment scheduleFragment;
 
@@ -46,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
     private void initBar() {
         ActionBar bar = getSupportActionBar();
         if (bar != null) {
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setIcon(R.drawable.ic_logo_zut);
-            getSupportActionBar().setTitle("ZUT");
+            bar.setDisplayShowHomeEnabled(true);
+            bar.setIcon(R.drawable.ic_logo_zut);
+            bar.setTitle(R.string.zut);
         }
     }
 
@@ -68,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
         replaceFragmentInViewContainer(scheduleFragment, R.id.schedule_container, SCHEDULE_TAG);
     }
 
-    private void replaceFragmentInViewContainer(Fragment fragment, int containerViewId, String tag) {
+    private void replaceFragmentInViewContainer(Fragment fragment, int containerId, String tag) {
         getSupportFragmentManager().beginTransaction()
-                .replace(containerViewId, fragment, tag)
+                .replace(containerId, fragment, tag)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
             case R.id.action_authors:
-                aboutUs();
+                showAboutUs();
                 return true;
             case R.id.action_refresh:
                 refreshScheduleIfNetworkAvailable();
@@ -140,18 +140,15 @@ public class MainActivity extends AppCompatActivity {
                 .getLoader(ScheduleEdzLoader.class);
         loader.setSourceTableJson("");
 
-        SharedPreferences settings = getSharedPreferences(User.PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
-        settings.edit().clear().apply();
+        User user = User.getInstance(this);
+        user.remove();
 
         finish();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private void aboutUs() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.view_container, new AboutUsFragment(), "AboutUs")
-                .addToBackStack(null)
-                .commit();
+    private void showAboutUs() {
+        replaceFragmentInViewContainer(new AboutUsFragment(), R.id.main_view_container, ABOUT_US_TAG);
     }
 
     private void refreshScheduleIfNetworkAvailable() {

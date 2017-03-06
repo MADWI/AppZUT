@@ -7,7 +7,7 @@ public class User {
 
     public static final String LOGIN_KEY = "login";
     public static final String PASSWORD_KEY = "password";
-    public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
+    private static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
     private static User instance;
     private final SharedPreferences preferences;
 
@@ -29,6 +29,11 @@ public class User {
         editor.putString(LOGIN_KEY, login);
         editor.putString(PASSWORD_KEY, password);
         editor.apply();
+    }
+
+    public void remove() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear().apply();
     }
 
     public String getSavedLogin() {

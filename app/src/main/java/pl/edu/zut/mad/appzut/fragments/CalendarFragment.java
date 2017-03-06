@@ -157,7 +157,6 @@ public class CalendarFragment extends CaldroidFragment {
         for (int i = 0; i < childCount; i++) {
             View view = viewGroup.getChildAt(i);
             view.setEnabled(isEnabled);
-            view.setClickable(isEnabled);
         }
     }
 
