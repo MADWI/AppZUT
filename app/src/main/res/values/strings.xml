@@ -23,6 +23,9 @@
     <string name="choose_field_of_study">Choose field of study</string>
     <string name="mentor_name" translatable="false">dr inż. Radosław Maciaszczyk</string>
     <string name="zut" translatable="false">ZUT</string>
+    <string name="facebook_icon">Facebook icon</string>
+    <string name="website_icon">Website icon</string>
+    <string name="email_icon">Email icon</string>
     <string-array name="week_days">
         <item>Monday</item>
         <item>Tuesday</item>

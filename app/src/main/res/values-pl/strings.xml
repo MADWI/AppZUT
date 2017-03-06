@@ -16,6 +16,9 @@
     <string name="mentor">Opiekun koła naukowego:</string>
     <string name="server_data_error">Błąd danych serwera</string>
     <string name="choose_field_of_study">Wybierz kierunek studiów</string>
+    <string name="facebook_icon">Ikona Facebooka</string>
+    <string name="website_icon">Ikona strony internetowej</string>
+    <string name="email_icon">Ikona emaila</string>
     <string-array name="week_days">
         <item>Poniedziałek</item>
         <item>Wtorek</item>
