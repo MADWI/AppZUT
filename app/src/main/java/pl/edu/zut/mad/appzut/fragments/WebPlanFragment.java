@@ -1,7 +1,6 @@
 package pl.edu.zut.mad.appzut.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -101,17 +100,14 @@ public class WebPlanFragment extends Fragment {
 
     @JavascriptInterface
     public void onTableGrabbed(final String contents) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                saveUser(login, password);
-                DataLoadingManager
-                        .getInstance(getContext())
-                        .getLoader(ScheduleEdzLoader.class)
-                        .setSourceTableJson(contents);
-                getActivity().finish();
-                startActivity(new Intent(getContext(), MainActivity.class));
-            }
+        getActivity().runOnUiThread(() -> {
+            saveUser(login, password);
+            DataLoadingManager
+                    .getInstance(getContext())
+                    .getLoader(ScheduleEdzLoader.class)
+                    .setSourceTableJson(contents);
+            getActivity().finish();
+            startActivity(new Intent(getContext(), MainActivity.class));
         });
     }
 
@@ -123,12 +119,9 @@ public class WebPlanFragment extends Fragment {
     @JavascriptInterface
     public void onLoginError(String error) {
         if (error != null && !error.equals(getResources().getString(R.string.incorrect_error))) {
-            web.post(new Runnable() {
-                @Override
-                public void run() {
-                    web.stopLoading();
-                    web.destroy();
-                }
+            web.post(() -> {
+                web.stopLoading();
+                web.destroy();
             });
             Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
             goToLoginFragment();
@@ -142,31 +135,20 @@ public class WebPlanFragment extends Fragment {
 
     @JavascriptInterface
     public void chooseFieldOfStudy(final String[] fields, final String[] ids) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.choose_field_of_study)
-                        .setCancelable(false)
-                        .setItems(fields, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, final int index) {
-                                dialogInterface.dismiss();
-                                passSelectedFiledOfStudyToScript(ids, index);
-                            }
-                        });
-                builder.show();
-            }
+        getActivity().runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.choose_field_of_study)
+                    .setCancelable(false)
+                    .setItems(fields, (dialogInterface, index) -> {
+                        dialogInterface.dismiss();
+                        passSelectedFiledOfStudyToScript(ids, index);
+                    });
+            builder.show();
         });
     }
 
     private void passSelectedFiledOfStudyToScript(final String[] ids, final int index) {
-        web.post(new Runnable() {
-            @Override
-            public void run() {
-                web.loadUrl("javascript:chooseFieldOfStudyById('" + ids[index] + "')");
-            }
-        });
+        web.post(() -> web.loadUrl("javascript:chooseFieldOfStudyById('" + ids[index] + "')"));
     }
 
     @JavascriptInterface
