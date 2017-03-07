@@ -4,5 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_fields_margin">8dp</dimen>
 
-    <dimen name="schedule_card_highlighted_padding">7dp</dimen>
+    <dimen name="schedule_hour_text_size">16sp</dimen>
+    <dimen name="hour_drawable_padding">5dp</dimen>
 </resources>

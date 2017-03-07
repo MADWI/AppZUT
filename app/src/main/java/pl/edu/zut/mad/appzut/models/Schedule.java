@@ -84,7 +84,17 @@ public class Schedule {
         public String getStartTime() {
             int startHour = time.fromHour;
             int startMinute = time.fromMinute;
-            return String.format(Locale.getDefault(), "%d:%02d", startHour, startMinute);
+            return getFormattedTime(startHour, startMinute);
+        }
+
+        public String getEndTime() {
+            int endHour = time.toHour;
+            int endMinute = time.toMinute;
+            return getFormattedTime(endHour, endMinute);
+        }
+
+        private String getFormattedTime(int hour, int minute) {
+            return String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
         }
 
         public String getLecturerWithRoom() {
