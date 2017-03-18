@@ -17,9 +17,6 @@ import hirondelle.date4j.DateTime;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by mb on 05.12.16.
- */
 public class DateUtilsTest {
     @Rule
     public WithAllLocalesRule mLocalesRule = new WithAllLocalesRule();

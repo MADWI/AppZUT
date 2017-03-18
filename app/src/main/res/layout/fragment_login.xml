@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:scaleType="fitCenter"
-            android:src="@drawable/zut" />
+            android:src="@drawable/zut"
+            tools:ignore="ContentDescription" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_login"
@@ -36,7 +39,8 @@
             android:id="@+id/input_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_fields_margin">
+            android:layout_margin="@dimen/text_fields_margin"
+            app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/input_password"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
@@ -100,7 +101,7 @@ public class CalendarFragment extends CaldroidFragment {
 
     /**
      * Put null as drawable because we use
-     * {@link CalendarGridAdapter#getBackgroundResourceForDateTime(DateTime)} for getting
+     * {@link CalendarGridAdapter#getBackgroundForDateTime(DateTime)} for getting
      * proper background drawable (e.g. it could have a border for current day or be selected)
      */
     private Map<Date, Drawable> convertClassesListToDateMap(List<Date> classesDates) {
@@ -138,15 +139,24 @@ public class CalendarFragment extends CaldroidFragment {
      * Useful method for preventing from click events on calendar date cells
      * (e.g. when is collapsed and covered by toolbar)
      *
-     * @param enabled set true for enabling click events, otherwise false
+     * @param isEnabled set true for enabling click events, otherwise false
      */
-    public void setEnabledForClickEvents(boolean enabled) {
+    public void setEnabledForClickEvents(boolean isEnabled) {
         List<DateGridFragment> calendarMonthFragments = getCalendarMonthFragments();
         for (DateGridFragment fragment : calendarMonthFragments) {
-            View view = fragment.getGridView();
-            if (view != null) {
-                view.setEnabled(enabled);
-            }
+            ViewGroup viewGroup = fragment.getGridView();
+            setEnableClickForViewGroup(viewGroup, isEnabled);
+        }
+    }
+
+    private void setEnableClickForViewGroup(ViewGroup viewGroup, boolean isEnabled) {
+        if (viewGroup == null) {
+            return;
+        }
+        int childCount = viewGroup.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = viewGroup.getChildAt(i);
+            view.setEnabled(isEnabled);
         }
     }
 

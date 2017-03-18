@@ -1,9 +1,11 @@
 package pl.edu.zut.mad.appzut.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,23 +58,21 @@ public class WebPlanFragment extends Fragment {
         initWebView();
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
         pleaseWaitView.setVisibility(View.VISIBLE);
         web.getSettings().setJavaScriptEnabled(true);
         web.addJavascriptInterface(this, "android");
-        web.setWebViewClient(new WebViewClient(){
+        web.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                web.loadUrl("javascript:javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
-                web.loadUrl("javascript:var x =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtIdent').value = '"+login+"';");
-                web.loadUrl("javascript:var y =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_txtHaslo').value = '"+password+"';");
-                web.loadUrl("javascript:var z =document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_butLoguj').click();");
-                web.loadUrl("javascript:android.onLoginError(document.getElementById('ctl00_ctl00_ContentPlaceHolder_MiddleContentPlaceHolder_lblMessage').innerHTML)");
+                web.loadUrl("javascript:(function(){document.body.appendChild(document.createElement('script')).src='/appwizut-injected-script.js'})()");
             }
 
             @Override
-            @SuppressWarnings("deprecation") // Newer version is not supported on older Android versions
+            @SuppressWarnings("deprecation")
+            // Newer version is not supported on older Android versions
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
                 if (url.endsWith("/appwizut-injected-script.js")) {
                     return new WebResourceResponse(
@@ -86,57 +83,82 @@ public class WebPlanFragment extends Fragment {
                 }
                 return null;
             }
-
-            // Handle response from javascript
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("js-grabbed-table:")) {
-                    saveUser(login, password);
-                    String tableJson;
-                    try {
-                        tableJson = URLDecoder.decode(url.substring(17), "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    tableGrabbedByJavascript(tableJson);
-                    return true;
-                }
-                return false;
-            }
         });
 
-        web.loadUrl("https://edziekanat.zut.edu.pl/WU/PodzGodzin.aspx");
+        web.loadUrl("https://edziekanat.zut.edu.pl/WU");
+    }
+
+    @JavascriptInterface
+    public String getLogin() {
+        return login;
+    }
+
+    @JavascriptInterface
+    public String getPassword() {
+        return password;
+    }
+
+    @JavascriptInterface
+    public void onTableGrabbed(final String contents) {
+        getActivity().runOnUiThread(() -> {
+            saveUser(login, password);
+            DataLoadingManager
+                    .getInstance(getContext())
+                    .getLoader(ScheduleEdzLoader.class)
+                    .setSourceTableJson(contents);
+            getActivity().finish();
+            startActivity(new Intent(getContext(), MainActivity.class));
+        });
     }
 
     private void saveUser(String login, String password) {
-        User user = new User(getContext());
+        User user = User.getInstance(getContext());
         user.save(login, password);
-    }
-
-    public void tableGrabbedByJavascript(final String contents) {
-        DataLoadingManager
-                .getInstance(getContext())
-                .getLoader(ScheduleEdzLoader.class)
-                .setSourceTableJson(contents);
-        getActivity().finish();
-        startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     @JavascriptInterface
     public void onLoginError(String error) {
-        if(error != null) {
-            if(!error.equals(getResources().getString(R.string.incorrect_error))) {
-                web.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        web.stopLoading();
-                        web.destroy();
-                    }
-                });
-                Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
-                Fragment f = new LoginFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frame_container, f).commit();
-            }
+        if (error != null && !error.equals(getResources().getString(R.string.incorrect_error))) {
+            web.post(() -> {
+                web.stopLoading();
+                web.destroy();
+            });
+            Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+            goToLoginFragment();
+        }
+    }
+
+    private void goToLoginFragment() {
+        Fragment f = new LoginFragment();
+        getFragmentManager().beginTransaction().replace(R.id.frame_container, f).commit();
+    }
+
+    @JavascriptInterface
+    public void chooseFieldOfStudy(final String[] fields, final String[] ids) {
+        getActivity().runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.choose_field_of_study)
+                    .setCancelable(false)
+                    .setItems(fields, (dialogInterface, index) -> {
+                        dialogInterface.dismiss();
+                        passSelectedFiledOfStudyToScript(ids, index);
+                    });
+            builder.show();
+        });
+    }
+
+    private void passSelectedFiledOfStudyToScript(final String[] ids, final int index) {
+        web.post(() -> web.loadUrl("javascript:chooseFieldOfStudyById('" + ids[index] + "')"));
+    }
+
+    @JavascriptInterface
+    public void onServerDataError() {
+        Toast.makeText(getContext(), R.string.server_data_error, Toast.LENGTH_LONG).show();
+        User user = User.getInstance(getContext());
+        if (user.isSaved()) {
+            getActivity().finish();
+        } else {
+            goToLoginFragment();
         }
     }
 

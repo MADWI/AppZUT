@@ -1,6 +1,5 @@
 package pl.edu.zut.mad.appzut.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,10 +21,8 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import pl.edu.zut.mad.appzut.R;
-import pl.edu.zut.mad.appzut.activities.LoginActivity;
 import pl.edu.zut.mad.appzut.adapters.SchedulePagerAdapter;
 import pl.edu.zut.mad.appzut.models.Schedule;
 import pl.edu.zut.mad.appzut.network.BaseDataLoader;
@@ -44,7 +41,6 @@ public class ScheduleFragment extends Fragment
     private static final int LAST_DAY_INDEX = 6;
     @BindView(R.id.schedule_main) View scheduleWrapper;
     @BindView(R.id.pager) ViewPager viewPager;
-    @BindView(R.id.schedule_unavailable) View scheduleUnavailableWrapper;
     @BindView(R.id.loading_indicator) ProgressBar loadingIndicator;
     @BindArray(R.array.week_days) String[] weekDaysNames;
     private Unbinder unbinder;
@@ -63,11 +59,15 @@ public class ScheduleFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.schedule_fragment_main, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+        init(savedInstanceState);
+        return rootView;
+    }
+
+    private void init(Bundle savedInstanceState) {
         readSavedSelectedDateString(savedInstanceState);
         initPager();
-        initLoader();
         updateCurrentWeekDatesForSelectedDate();
-        return rootView;
+        initLoader();
     }
 
     private void readSavedSelectedDateString(Bundle savedInstanceState) {
@@ -81,9 +81,9 @@ public class ScheduleFragment extends Fragment
     private void initPager() {
         pagerAdapter = new SchedulePagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        CircularViewPagerHandler circularViewPagerHandler = new CircularViewPagerHandler(viewPager);
-        circularViewPagerHandler.setOnPageChangeListener(onPageChangeListener);
-        viewPager.addOnPageChangeListener(circularViewPagerHandler);
+        CircularViewPagerHandler pagerHandler = new CircularViewPagerHandler(viewPager);
+        pagerHandler.setOnPageChangeListener(onPageChangeListener);
+        viewPager.addOnPageChangeListener(pagerHandler);
     }
 
     private final ViewPager.SimpleOnPageChangeListener onPageChangeListener
@@ -128,6 +128,16 @@ public class ScheduleFragment extends Fragment
         }
     }
 
+    private void updateCurrentWeekDatesForSelectedDate() {
+        Date date = DateUtils.convertStringToDate(selectedDateString);
+        updateCurrentWeekDates(date);
+    }
+
+    private void updateCurrentWeekDates(@Nullable Date dayDate) {
+        currentWeekDates = DateUtils.getWeekDates(dayDate);
+        pagerAdapter.setWeekDates(currentWeekDates);
+    }
+
     private void initLoader() {
         scheduleLoader = DataLoadingManager.getInstance(getActivity())
                 .getLoader(ScheduleEdzLoader.class);
@@ -140,8 +150,6 @@ public class ScheduleFragment extends Fragment
             calendarFragment.setClassesDates(schedule.getClassesDates());
             selectCurrentDayPage();
             showSchedule();
-        } else {
-            showScheduleUnavailable();
         }
     }
 
@@ -152,24 +160,7 @@ public class ScheduleFragment extends Fragment
 
     private void showSchedule() {
         scheduleWrapper.setVisibility(View.VISIBLE);
-        scheduleUnavailableWrapper.setVisibility(View.GONE);
         loadingIndicator.setVisibility(View.GONE);
-    }
-
-    private void showScheduleUnavailable() {
-        scheduleWrapper.setVisibility(View.GONE);
-        scheduleUnavailableWrapper.setVisibility(View.VISIBLE);
-        loadingIndicator.setVisibility(View.GONE);
-    }
-
-    private void updateCurrentWeekDatesForSelectedDate() {
-        Date date = DateUtils.convertStringToDate(selectedDateString);
-        updateCurrentWeekDates(date);
-    }
-
-    private void updateCurrentWeekDates(@Nullable Date dayDate) {
-        currentWeekDates = DateUtils.getWeekDates(dayDate);
-        pagerAdapter.setWeekDates(currentWeekDates);
     }
 
     @Override
@@ -273,11 +264,6 @@ public class ScheduleFragment extends Fragment
         super.onDestroyView();
         scheduleLoader.unregister(this);
         unbinder.unbind();
-    }
-
-    @OnClick(R.id.import_from_edziekanat)
-    public void onClick() {
-        startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
     @Override

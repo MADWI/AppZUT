@@ -7,11 +7,21 @@ public class User {
 
     public static final String LOGIN_KEY = "login";
     public static final String PASSWORD_KEY = "password";
-    public static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
-    private SharedPreferences preferences;
+    private static final String PREFERENCES_FILE_KEY = "pl.edu.zut.mad.appzut.PREFERENCES_FILE_KEY";
+    private static User instance;
+    private final SharedPreferences preferences;
 
-    public User(Context context) {
-        preferences = context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+    private User(SharedPreferences preferences) {
+        this.preferences = preferences;
+    }
+
+    public static User getInstance(Context context) {
+        if (instance == null) {
+            SharedPreferences preferences =
+                    context.getSharedPreferences(PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+            instance = new User(preferences);
+        }
+        return instance;
     }
 
     public void save(String login, String password) {
@@ -19,6 +29,11 @@ public class User {
         editor.putString(LOGIN_KEY, login);
         editor.putString(PASSWORD_KEY, password);
         editor.apply();
+    }
+
+    public void remove() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear().apply();
     }
 
     public String getSavedLogin() {
