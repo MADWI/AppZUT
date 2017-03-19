@@ -1,0 +1,3 @@
+[submodule "schedule"]
+	path = schedule
+	url = https://github.com/MADWI/schedule.git

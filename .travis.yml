@@ -3,8 +3,8 @@ jdk: oraclejdk8
 
 env:
   global:
-    - ANDROID_API_LEVEL=25
-    - BUILD_TOOLS_VER=25.0.2
+    - ANDROID_API_LEVEL=26
+    - BUILD_TOOLS_VER=26.0.2
 android:
   components:
     - tools
@@ -13,6 +13,8 @@ android:
     - build-tools-$BUILD_TOOLS_VER
     - android-$ANDROID_API_LEVEL
     - extra-android-m2repository
-
 script:
   - ./gradlew clean build
+notifications:
+  email: false
+  slack: mad-schedule:TKW4HqsnTBL4Bmi8tlCtu0XJ
