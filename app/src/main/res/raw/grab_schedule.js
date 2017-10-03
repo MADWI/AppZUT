@@ -15,7 +15,6 @@
         hideError();
     }
 
-
     function isOnLoginPage() {
         return location.pathname == '/WU/' || isOnPage('Logowanie');
     }
@@ -42,7 +41,7 @@
     }
 
     function isOnStartPage() {
-        return isOnPage("Ogloszenia");
+        return isOnPage("News");
     }
 
     function isOnSchedulePage() {
