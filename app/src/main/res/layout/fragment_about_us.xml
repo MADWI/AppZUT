@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
                 android:textColor="@color/white" />
 
@@ -54,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:src="@drawable/ic_facebook"
-                android:tint="@color/colorAccent"
+                android:tint="@color/scheduleColorAccent"
                 android:contentDescription="@string/facebook_icon" />
 
             <ImageView
@@ -63,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:src="@drawable/ic_web_black_48dp"
-                android:tint="@color/colorAccent"
+                android:tint="@color/scheduleColorAccent"
                 android:contentDescription="@string/website_icon" />
 
             <ImageView
@@ -72,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:src="@drawable/ic_email_black_48dp"
-                android:tint="@color/colorAccent"
+                android:tint="@color/scheduleColorAccent"
                 android:contentDescription="@string/email_icon" />
 
         </LinearLayout>

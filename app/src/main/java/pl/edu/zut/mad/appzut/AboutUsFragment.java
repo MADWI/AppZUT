@@ -1,4 +1,4 @@
-package pl.edu.zut.mad.appzut.fragments;
+package pl.edu.zut.mad.appzut;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.edu.zut.mad.appzut.R;
 
 public class AboutUsFragment extends Fragment {
 

@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="please_wait">Proszę czekać</string>
-    <string name="no_classes">Brak zajęć</string>
-    <string name="password">Hasło</string>
-    <string name="identifier">Identyfikator</string>
-    <string name="login">Zaloguj się</string>
-    <string name="edziekanat">e-Dziekanat</string>
-    <string name="field_cannot_be_empty">Pole nie może być puste</string>
-    <string name="no_internet">Brak połączenia z internetem</string>
-    <string name="action_import">Importuj plan</string>
     <string name="action_authors">Autorzy</string>
     <string name="action_refresh">Odśwież</string>
+    <string name="action_search">Szukaj</string>
     <string name="action_logout">Wyloguj</string>
     <string name="mentor">Opiekun koła naukowego:</string>
-    <string name="server_data_error">Błąd danych serwera</string>
-    <string name="choose_field_of_study">Wybierz kierunek studiów</string>
     <string name="facebook_icon">Ikona Facebooka</string>
     <string name="website_icon">Ikona strony internetowej</string>
     <string name="email_icon">Ikona emaila</string>
-    <string-array name="week_days">
-        <item>Poniedziałek</item>
-        <item>Wtorek</item>
-        <item>Środa</item>
-        <item>Czwartek</item>
-        <item>Piątek</item>
-        <item>Sobota</item>
-        <item>Niedziela</item>
-    </string-array>
 </resources>

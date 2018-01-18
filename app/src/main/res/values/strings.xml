@@ -1,38 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="authors_list" translatable="false">Michał Bednarski\nBartosz Kozajda\nMarek Macko\nDamian Malarczyk</string>
+    <string name="mobile_applications_developers" translatable="false">Mobile Applications Developers</string>
+    <string name="legal_notices" translatable="false">Application use open source software:\n- Caldroid Copyright (c) 2013 by Roomorama Inc. \n- ButterKnife Copyright 2013 Jake Wharton\n- CircularViewPager Copyright 2014 Tobias Buchholz\n\nLicense:\nCopyright 2015 Mobile Applications Developers WI ZUT\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="legal_notice" translatable="false">Legal notice</string>
+    <string name="mentor_name" translatable="false">dr inż. Radosław Maciaszczyk</string>
     <string name="app_name" translatable="false">AppZUT</string>
-    <string name="please_wait">Please wait</string>
-    <string name="no_classes">No classes</string>
-    <string name="password">Password</string>
-    <string name="identifier">ID</string>
-    <string name="login">Login</string>
-    <string name="edziekanat">e-Dziekanat</string>
-    <string name="field_cannot_be_empty">Field cannot be empty</string>
-    <string name="incorrect_error" translatable="false">Upłynał czas bezczynności serwisu lub wystąpił brak dostępu do zasobu, proszę zalogować się ponownie</string>
-    <string name="no_internet">No Internet connection</string>
-    <string name="action_import">Import schedule</string>
     <string name="action_authors">Authors</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_search">Search</string>
     <string name="action_logout">Logout</string>
-    <string name="mobile_applications_developers"  translatable="false">Mobile Applications Developers</string>
-    <string name="authors_list"  translatable="false">Michał Bednarski\nBartosz Kozajda\nMarek Macko\nDamian Malarczyk</string>
     <string name="mentor">SSA patron:</string>
-    <string name="legal_notices" translatable="false">Application use open source software:\n- Caldroid Copyright (c) 2013 by Roomorama Inc. \n- ButterKnife Copyright 2013 Jake Wharton\n- CircularViewPager Copyright 2014 Tobias Buchholz\n\nLicense:\nCopyright 2015 Mobile Applications Developers WI ZUT\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-    <string name="legal_notice"  translatable="false">Legal notice</string>
-    <string name="server_data_error">Server data error</string>
-    <string name="choose_field_of_study">Choose field of study</string>
-    <string name="mentor_name" translatable="false">dr inż. Radosław Maciaszczyk</string>
-    <string name="zut" translatable="false">ZUT</string>
     <string name="facebook_icon">Facebook icon</string>
     <string name="website_icon">Website icon</string>
     <string name="email_icon">Email icon</string>
-    <string-array name="week_days">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
 </resources>
