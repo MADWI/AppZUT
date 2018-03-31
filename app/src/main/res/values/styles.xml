@@ -6,4 +6,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppText">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AppText.About">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppText.About.ExpandedToolbarTitle">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
 </resources>

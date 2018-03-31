@@ -8,4 +8,5 @@
     <string name="facebook_icon">Ikona Facebooka</string>
     <string name="website_icon">Ikona strony internetowej</string>
     <string name="email_icon">Ikona emaila</string>
+    <string name="about">O nas</string>
 </resources>

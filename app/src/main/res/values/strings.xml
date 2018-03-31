@@ -14,4 +14,5 @@
     <string name="facebook_icon">Facebook icon</string>
     <string name="website_icon">Website icon</string>
     <string name="email_icon">Email icon</string>
+    <string name="about">About</string>
 </resources>
