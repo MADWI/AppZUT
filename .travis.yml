@@ -3,8 +3,8 @@ jdk: oraclejdk8
 
 env:
   global:
-    - ANDROID_API_LEVEL=26
-    - BUILD_TOOLS_VER=26.0.2
+    - ANDROID_API_LEVEL=27
+    - BUILD_TOOLS_VER=27.0.3
 android:
   components:
     - tools
