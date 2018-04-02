@@ -18,3 +18,9 @@ script:
 notifications:
   email: false
   slack: mad-schedule:TKW4HqsnTBL4Bmi8tlCtu0XJ
+
+#temporary fix for timeout errors from travis
+addons:
+  apt:
+    config:
+      retries: true

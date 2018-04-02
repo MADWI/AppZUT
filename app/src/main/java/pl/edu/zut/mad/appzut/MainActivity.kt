@@ -2,6 +2,7 @@ package pl.edu.zut.mad.appzut
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
 import android.view.Menu
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity(), DateListener {
 
     private fun showAboutUs() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.main_container, AboutUsFragment())
+            .add(R.id.main_container, Fragment())
             .addToBackStack(null)
             .commit()
     }
