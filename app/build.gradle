@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -24,10 +25,15 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 ext {
     support_version = '27.1.0'
+    picasso_version = '2.5.2'
+    constraint_version = '1.1.0-beta6'
 }
 
 dependencies {
@@ -39,8 +45,9 @@ dependencies {
     })
 
     implementation "com.android.support:appcompat-v7:$support_version"
-    implementation  "com.android.support:design:$support_version"
-
-    implementation 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation "com.android.support:design:$support_version"
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_version"
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+    kapt "com.android.databinding:compiler:$gradle_version"
 }

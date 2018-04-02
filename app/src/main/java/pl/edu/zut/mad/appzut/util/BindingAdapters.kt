@@ -19,7 +19,7 @@ fun githubAvatar(imageView: ImageView, @StringRes githubProfileRes: Int) =
         val imageUrl = String.format(GITHUB_AVATAR_URL_FORMAT, getString(githubProfileRes))
         Picasso.with(this)
             .load(imageUrl)
-            .placeholder(R.drawable.ic_person_24dp)
+            .placeholder(R.drawable.ic_person_black_24dp)
             .into(imageView)
     }
 
