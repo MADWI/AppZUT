@@ -28,7 +28,7 @@
                 style="@style/AppText.About.Label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{about.titleRes}"
+                android:text="@{about.title}"
                 app:layout_constraintEnd_toStartOf="@id/personAvatarView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +39,7 @@
                 style="@style/AppText.About"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{about.subtitleRes}"
+                android:text="@{about.subtitle}"
                 app:layout_constraintStart_toStartOf="@id/titleView"
                 app:layout_constraintTop_toBottomOf="@id/titleView"
                 tools:ignore="ContentDescription"
@@ -54,7 +54,7 @@
 
             <ImageView
                 android:id="@+id/emailView"
-                emailOnClick="@{about.emailRes}"
+                emailOnClick="@{about.email}"
                 android:layout_width="@dimen/about_card_icon_size"
                 android:layout_height="@dimen/about_card_icon_size"
                 android:layout_marginStart="@dimen/about_card_icon_margin"
@@ -66,7 +66,7 @@
 
             <ImageView
                 android:id="@+id/githubView"
-                webOnClick="@{about.githubRes}"
+                webOnClick="@{about.github}"
                 android:layout_width="@dimen/about_card_icon_size"
                 android:layout_height="@dimen/about_card_icon_size"
                 android:contentDescription="@string/github_icon"
@@ -77,8 +77,8 @@
 
             <ImageView
                 android:id="@+id/facebookView"
-                hideIfMissingValue="@{about.facebookRes}"
-                webOnClick="@{about.facebookRes}"
+                hideIfMissing="@{about.facebook}"
+                webOnClick="@{about.facebook}"
                 android:layout_width="@dimen/about_card_icon_size"
                 android:layout_height="@dimen/about_card_icon_size"
                 android:contentDescription="@string/facebook_icon"
@@ -89,8 +89,8 @@
 
             <ImageView
                 android:id="@+id/websiteView"
-                hideIfMissingValue="@{about.websiteRes}"
-                webOnClick="@{about.websiteRes}"
+                hideIfMissing="@{about.website}"
+                webOnClick="@{about.website}"
                 android:layout_width="@dimen/about_card_icon_size"
                 android:layout_height="@dimen/about_card_icon_size"
                 android:contentDescription="@string/website_icon"
@@ -110,7 +110,7 @@
                 tools:ignore="ContentDescription">
 
                 <ImageView
-                    githubAvatar="@{about.githubRes}"
+                    githubAvatar="@{about.github}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/about_avatar_background"

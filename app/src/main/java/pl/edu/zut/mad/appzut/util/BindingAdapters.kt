@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import pl.edu.zut.mad.appzut.R
-import pl.edu.zut.mad.appzut.about.MISSING
 
 private const val SEND_MAIL_SCHEME = "mailto"
 private const val GITHUB_AVATAR_URL_FORMAT = "%s.png"
@@ -37,9 +36,9 @@ fun emailOnClick(view: View, email: String) =
         it.context.startActivity(emailIntent)
     }
 
-@BindingAdapter("hideIfMissingValue")
-fun hideIfMissingValue(view: View, value: Int) {
-    if (value == MISSING) {
+@BindingAdapter("hideIfMissing")
+fun hideIfMissing(view: View, value: String) {
+    if (value.isEmpty()) {
         view.visibility = View.INVISIBLE
     }
 }
