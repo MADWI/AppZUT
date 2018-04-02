@@ -14,6 +14,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="AppText.About.Label">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="AppText.About.ExpandedToolbarTitle">
         <item name="android:textColor">@android:color/transparent</item>
     </style>
