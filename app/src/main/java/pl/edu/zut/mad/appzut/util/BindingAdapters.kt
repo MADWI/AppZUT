@@ -3,7 +3,6 @@ package pl.edu.zut.mad.appzut.util
 import android.content.Intent
 import android.databinding.BindingAdapter
 import android.net.Uri
-import android.support.annotation.StringRes
 import android.view.View
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -14,31 +13,28 @@ private const val SEND_MAIL_SCHEME = "mailto"
 private const val GITHUB_AVATAR_URL_FORMAT = "%s.png"
 
 @BindingAdapter("githubAvatar")
-fun githubAvatar(imageView: ImageView, @StringRes githubProfileRes: Int) =
-    with(imageView.context) {
-        val imageUrl = String.format(GITHUB_AVATAR_URL_FORMAT, getString(githubProfileRes))
-        Picasso.with(this)
-            .load(imageUrl)
-            .placeholder(R.drawable.ic_person_black_24dp)
-            .into(imageView)
-    }
+fun githubAvatar(imageView: ImageView, githubProfileUrl: String) {
+    val avatarUrl = String.format(GITHUB_AVATAR_URL_FORMAT, githubProfileUrl)
+    Picasso.with(imageView.context)
+        .load(avatarUrl)
+        .placeholder(R.drawable.ic_person_black_24dp)
+        .into(imageView)
+}
 
 @BindingAdapter("webOnClick")
-fun webOnClick(view: View, @StringRes urlRes: Int) =
+fun webOnClick(view: View, url: String) =
     view.setOnClickListener {
-        with(it.context) {
-            val webUri = Uri.parse(getString(urlRes))
-            startActivity(Intent(Intent.ACTION_VIEW, webUri))
-        }
+        val webUri = Uri.parse(url)
+        val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+        it.context.startActivity(webIntent)
     }
 
 @BindingAdapter("emailOnClick")
-fun emailOnClick(view: View, @StringRes emailRes: Int) =
+fun emailOnClick(view: View, email: String) =
     view.setOnClickListener {
-        with(it.context) {
-            val mailUri = Uri.fromParts(SEND_MAIL_SCHEME, getString(emailRes), null)
-            startActivity(Intent(Intent.ACTION_SENDTO, mailUri))
-        }
+        val mailUri = Uri.fromParts(SEND_MAIL_SCHEME, email, null)
+        val emailIntent = Intent(Intent.ACTION_SENDTO, mailUri)
+        it.context.startActivity(emailIntent)
     }
 
 @BindingAdapter("hideIfMissingValue")
