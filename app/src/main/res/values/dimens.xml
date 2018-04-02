@@ -1,4 +1,12 @@
 <resources>
+    <dimen name="about_card_margin_top">8dp</dimen>
+    <dimen name="about_card_margin_horizontal">8dp</dimen>
+    <dimen name="about_card_elevation">4dp</dimen>
+    <dimen name="about_card_icon_margin">14dp</dimen>
+    <dimen name="about_card_icon_size">36dp</dimen>
+    <dimen name="about_card_avatar_size">80dp</dimen>
+    <dimen name="about_card_avatar_margin">16dp</dimen>
+    <dimen name="about_card_avatar_corner_radius">40dp</dimen>
     <dimen name="about_toolbar_mad_logo_top_margin">20dp</dimen>
     <dimen name="about_bottom_padding">8dp</dimen>
 </resources>
