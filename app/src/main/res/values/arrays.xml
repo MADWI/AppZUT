@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="about">
+        <item>@raw/about_mad</item>
+        <item>@raw/about_marek_macko</item>
+        <item>@raw/about_lukasz_piskadlo</item>
+        <item>@raw/about_ssa_patron</item>
+    </integer-array>
+
+</resources>
