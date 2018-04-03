@@ -9,7 +9,7 @@ class AboutProvider(val resources: Resources) {
 
     private val parser = Gson()
 
-    fun getFromArray(@ArrayRes id: Int): MutableList<About> {
+    fun getFromArray(@ArrayRes id: Int): List<About> {
         val aboutList = mutableListOf<About>()
         val aboutIds = resources.obtainTypedArray(id)
         for (i in 0 until aboutIds.length()) {
