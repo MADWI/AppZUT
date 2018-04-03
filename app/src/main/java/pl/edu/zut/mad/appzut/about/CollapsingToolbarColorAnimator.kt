@@ -37,10 +37,11 @@ class CollapsingToolbarColorAnimator(private val collapsingToolbarLayout: Collap
      * is only for internal initialization of scrim animator (prevent from null).
      * Second call is for restoring state of [CollapsingToolbarLayout].
      */
-    fun addAnimatorForView(view: View) =
-        collapsingToolbarColorAnimator.also {
+    fun addAnimatorForView(view: View) {
+        collapsingToolbarColorAnimator.let {
             it.addUpdateListener { setViewBackgroundByAlpha(view, it.animatedValue as Int) }
         }
+    }
 
     private fun setViewBackgroundByAlpha(view: View, alpha: Int) {
         val fraction = alpha / MAX_ALPHA
