@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.AboutUs" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:actionMenuTextAppearance">@style/AboutTextAppearance</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowReturnTransition">@transition/slide_right</item>
+        <item name="android:windowEnterTransition">@transition/slide_right</item>
+        <item name="android:windowExitTransition">@null</item>
+    </style>
+
+</resources>

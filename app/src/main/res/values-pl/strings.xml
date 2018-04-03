@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_authors">Autorzy</string>
+    <string name="action_about">O nas</string>
     <string name="action_refresh">Odśwież</string>
     <string name="action_search">Szukaj</string>
     <string name="action_logout">Wyloguj</string>

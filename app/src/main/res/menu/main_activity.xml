@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_today"
         android:title="@string/today"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_refresh"
         android:title="@string/action_refresh"
@@ -15,8 +15,8 @@
         android:title="@string/action_search"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_authors"
-        android:title="@string/action_authors"
+        android:id="@+id/action_about"
+        android:title="@string/action_about"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"

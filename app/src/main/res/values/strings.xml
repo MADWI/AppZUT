@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">AppZUT</string>
-    <string name="action_authors">Authors</string>
+    <string name="action_about">About us</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_search">Search</string>
     <string name="action_logout">Logout</string>
