@@ -19,6 +19,7 @@ class AboutProvider(val resources: Resources) {
                 aboutList.add(about)
             }
         }
+        aboutIds.recycle()
         return aboutList
     }
 
