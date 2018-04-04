@@ -1,13 +1,15 @@
 package pl.edu.zut.mad.appzut
 
+import android.app.ActivityOptions
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import org.joda.time.LocalDate
+import pl.edu.zut.mad.appzut.about.AboutActivity
 import pl.edu.zut.mad.schedule.DateListener
 import pl.edu.zut.mad.schedule.ScheduleFragment
 import pl.edu.zut.mad.schedule.search.SearchActivity
@@ -15,7 +17,7 @@ import pl.edu.zut.mad.schedule.search.SearchActivity
 class MainActivity : AppCompatActivity(), DateListener {
 
     companion object {
-        private val DATE_FORMAT = "LLLL"
+        private const val DATE_FORMAT = "LLLL"
     }
 
     private val scheduleFragment = ScheduleFragment()
@@ -42,12 +44,12 @@ class MainActivity : AppCompatActivity(), DateListener {
             return
         }
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, scheduleFragment)
+            .replace(R.id.mainContainerView, scheduleFragment)
             .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        menuInflater.inflate(R.menu.main_activity, menu)
         return true
     }
 
@@ -58,19 +60,22 @@ class MainActivity : AppCompatActivity(), DateListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_today -> scheduleFragment.moveToToday()
-            R.id.action_authors -> showAboutUs()
+            R.id.action_about -> startActivityClass(AboutActivity::class.java)
             R.id.action_refresh -> scheduleFragment.refreshSchedule()
-            R.id.action_search -> startActivity(Intent(this, SearchActivity::class.java))
+            R.id.action_search -> startActivityClass(SearchActivity::class.java)
             R.id.action_logout -> scheduleFragment.logout()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
-    private fun showAboutUs() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.main_container, Fragment())
-            .addToBackStack(null)
-            .commit()
-    }
+    private fun startActivityClass(activityClass: Class<*>) =
+        startActivity(Intent(this, activityClass), getActivityOptions())
+
+    private fun getActivityOptions() =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+        } else {
+            null
+        }
 }
