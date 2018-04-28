@@ -32,9 +32,9 @@ android {
 }
 
 ext {
-    support_version = '27.1.0'
+    support_version = '27.1.1'
     picasso_version = '2.5.2'
-    constraint_version = '1.1.0-beta6'
+    constraint_version = '1.1.0'
     gson_version = '2.4.0'
 }
 
